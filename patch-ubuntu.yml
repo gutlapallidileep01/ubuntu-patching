@@ -1,0 +1,9 @@
+---
+- name: Patch Ubuntu Servers
+  hosts: ubuntu_servers
+  become: yes
+  serial: 1      #one server at a time
+
+  roles:
+    - patching
+
