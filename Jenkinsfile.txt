@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    environment {
+        ANSIBLE_HOST_KEY_CHECKING = "False"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main',
+                    url: 'git@github.com:Rudra-DevOps/ubuntu-patching.git'
+            }
+        }
+
+        stage('Verify Ansible') {
+            steps {
+                sh 'ansible --version'
+            }
+        }
+
+        stage('Run Ubuntu Patching') {
+            steps {
+                sshagent(credentials: ['github-ssh-key']) {
+                    sh '''
+                        ansible-playbook patch-ubuntu.yml
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Ubuntu patching completed successfully!'
+        }
+        failure {
+            echo '❌ Patching failed. Check logs.'
+        }
+    }
+}
