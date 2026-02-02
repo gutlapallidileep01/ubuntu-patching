@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'main',
-                    url: 'git@github.com:Rudra-DevOps/ubuntu-patching.git'
+                    url: 'git@github.com:gutlapallidileep01/ubuntu-patching.git'
             }
         }
 
